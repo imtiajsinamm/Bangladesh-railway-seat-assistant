@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bangladesh Railway Seat Assistant</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-title">Bangladesh Railway</div>
+    <div class="hero-sub">Seat Assistant</div>
+  </header>
+
+  <div id="siteWarning" class="banner" hidden>
+    Open <strong>eticket.railway.gov.bd</strong> (logged in) in the active tab to run.
+  </div>
+
+  <form id="journeyForm" autocomplete="off">
+    <label for="startStation">From Station</label>
+    <div class="ac" data-kind="stations"><input type="text" id="startStation" placeholder="Search station..." /><div class="ac-list" hidden></div></div>
+
+    <label for="endStation">To Station</label>
+    <div class="ac" data-kind="stations"><input type="text" id="endStation" placeholder="Search station..." /><div class="ac-list" hidden></div></div>
+
+    <label for="journeyDate">Journey Date</label>
+    <input type="date" id="journeyDate" />
+
+    <label for="className">Seat Class</label>
+    <div class="ac" data-kind="classes"><input type="text" id="className" placeholder="Search class..." /><div class="ac-list" hidden></div></div>
+
+    <label for="trainName">Train Name / Number</label>
+    <div class="ac" data-kind="trains"><input type="text" id="trainName" placeholder="Search train..." /><div class="ac-list" hidden></div></div>
+
+    <label for="seatCount">Number of Seats <span class="muted">(max 4)</span></label>
+    <input type="number" id="seatCount" min="1" max="4" value="1" />
+
+    <fieldset>
+      <legend>Seat Selection</legend>
+      <label class="radio"><input type="radio" name="seatMode" value="preferred" checked /> Preferred seats</label>
+      <label class="radio"><input type="radio" name="seatMode" value="random" /> Random available seats</label>
+      <div id="preferredWrap">
+        <textarea id="preferredSeats" rows="2" placeholder="UMA-3, UMA-4"></textarea>
+        <p class="hint">Enter exactly as many ids as Number of Seats, in order (e.g. 4 seats → KHA-32, SCHA-21, UMA-3, DA-17). If one is taken, the nearest available seat next to it is used instead.</p>
+      </div>
+    </fieldset>
+
+    <label>Seat Number Range <span class="muted">(optional, for fill-in / random seats)</span></label>
+    <div class="row2">
+      <input type="number" id="rangeMin" placeholder="Min" min="1" />
+      <input type="number" id="rangeMax" placeholder="Max" min="1" />
+    </div>
+
+    <div id="status" class="status">Ready to start</div>
+
+    <div class="actions">
+      <button type="submit" id="startBtn" class="primary">Select Seats</button>
+      <button type="button" id="stopBtn" class="stop">Stop</button>
+    </div>
+    <button type="button" id="resetBtn" class="link">Reset form</button>
+  </form>
+
+  <p class="footer">Selects seats only, then stops. You press CONTINUE PURCHASE and do passenger info, OTP and payment yourself.</p>
+
+  <section class="lists">
+    <div class="lists-title">Suggestion lists</div>
+    <p class="hint" id="listCounts">Loading...</p>
+    <div class="row2">
+      <button type="button" id="syncStationsBtn" class="secondary">Sync stations</button>
+      <button type="button" id="syncTrainsBtn" class="secondary">Sync trains</button>
+    </div>
+    <p class="hint">Reads the site's own names so suggestions match exactly. <b>Stations:</b> open the site's home page first. <b>Trains:</b> open the site's <i>Train Information</i> page first. Takes under a minute; Stop cancels.</p>
+    <div id="syncStatus" class="sync-status" hidden></div>
+  </section>
+
+  <details id="troubleshooting">
+    <summary>Troubleshooting</summary>
+    <p class="hint">If something isn't detected, open the relevant page (home, results or seat map), press Diagnose, copy the report and send it back.</p>
+    <div class="row2">
+      <button type="button" id="diagnoseBtn" class="secondary">Diagnose Page</button>
+      <button type="button" id="copyBtn" class="secondary" hidden>Copy Report</button>
+    </div>
+    <textarea id="diagOut" rows="8" readonly hidden></textarea>
+  </details>
+
+  <script src="../data/railway-data.js"></script>
+  <script src="../utils/validation.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

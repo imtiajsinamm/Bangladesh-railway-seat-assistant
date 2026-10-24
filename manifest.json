@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Bangladesh Railway Seat Assistant",
+  "version": "1.0.0",
+  "description": "Side-panel helper for the official Bangladesh Railway e-Ticket site: fills the journey, opens your train/class and selects seats, then stops before CONTINUE PURCHASE. No payment, OTP, CAPTCHA or passenger-data automation.",
+  "permissions": [
+    "storage",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://eticket.railway.gov.bd/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_title": "Bangladesh Railway Seat Assistant",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://eticket.railway.gov.bd/*"
+      ],
+      "js": [
+        "utils/dom.js",
+        "utils/validation.js",
+        "utils/storage.js",
+        "content/station-parser.js",
+        "content/class-parser.js",
+        "content/train-parser.js",
+        "content/seat-selector.js",
+        "content/railway-adapter.js",
+        "content/list-sync.js",
+        "content/diagnostics.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "side_panel": {
+    "default_path": "popup/popup.html"
+  }
+}
